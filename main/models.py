@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
 class Recipe(models.Model):
@@ -42,12 +43,6 @@ class RecipeCategory(models.Model):
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
 
 
-class User(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField()
-    password = models.CharField(max_length=100)
+class User(AbstractUser):
     gender = models.CharField(max_length=1, choices=[('M', 'Мужчина'), ('F', 'Женщина')])
-    age = models.PositiveIntegerField(validators=[MinValueValidator(12), MaxValueValidator(100)])
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)
+    age = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(12), MaxValueValidator(100)])

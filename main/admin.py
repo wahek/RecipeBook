@@ -1,4 +1,8 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
+from .models import Recipe, User
+from .forms import UserCreationForm, UserChangeForm
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -10,3 +14,15 @@ class RecipeAdmin(admin.ModelAdmin):
             'classes': ['collapse']
         })
     ]
+
+
+@admin.register(User)
+class UserAdmin(UserAdmin):
+    model = User
+    add_fieldsets = [
+        *UserAdmin.add_fieldsets,
+        ('Дополнительно', {
+            'fields': ['email', 'age', 'gender']
+        })
+    ]
+
