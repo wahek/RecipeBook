@@ -9,33 +9,17 @@ def index(request):
     return render(request, 'index.html')
 
 
-def registration(request):
-    if request.method == 'POST':
-        try:
-            User.objects.get(email=request.POST['email'])
-            messages.error(request, 'Такой пользователь уже существует')
-            return redirect('registration')
-        except User.DoesNotExist:
-            form = UserFormRegistration(request.POST)
+class UserFormRegistrationView:
+    form_class = UserFormRegistration
+    template_name = 'registration.html'
+
+    def get(self, request):
+        form = self.form_class
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Вы успешно зарегистрировались')
-            return redirect('index')
-    else:
-        form = UserFormRegistration()
-    return render(request, 'registration.html', {'form': form})
-
-
-def signin(request):
-    if request.method == 'POST':
-        try:
-            User.objects.get(email=request.POST['email'])
-        except User.DoesNotExist:
-            return redirect('registration')
-        form = UserFormLogin(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('index')
-    else:
-        form = UserFormLogin()
-    return render(request, 'signin.html', {'form': form})
+            return redirect('signin')
+        return render(request, self.template_name, {'form': form})

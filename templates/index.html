@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ title }}</title>
     {% load static %}
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <link href="{% static 'styles/style.css' %}" rel="stylesheet">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg bg-body-tertiary " data-bs-theme="dark">
@@ -32,7 +32,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Профиль</a></li>
-                            <li><a class="dropdown-item" href="#">Регистрация</a></li>
+                            <li><a class="dropdown-item" href="#">Сменить пользователя</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -64,7 +64,7 @@
     </div>
 </nav>
 
-<footer class="border-top bg-light">
+<footer class="border-top bg-light fixed-bottom">
     <div class="d-flex flex-wrap justify-content-between align-items-center py-4 container-lg">
         <div class="col-md-4 d-flex align-items-center">
             <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
@@ -72,24 +72,23 @@
                     <use xlink:href="#bootstrap"></use>
                 </svg>
             </a>
-            <span class="mb-3 mb-md-0 text-body-secondary">© 2024 Company, Inc</span>
+            <span class="mb-3 mb-md-0 text-body-secondary">© 2024 _PyDev with Django, Inc</span>
         </div>
         <div class="d-flex mb-0">
             <ul class="nav gap-3">
                 <li class="ms-3"><a class="text-body-secondary" href="#">
-                    <img src="../static/images/icon/vk-1-logo-svgrepo-com.svg"></img>
+                    <img class="my-icons" src="../static/images/icon/vk-1-logo-svgrepo-com.svg"></img>
                 </a></li>
                 <li class="ms-3"><a class="text-body-secondary" href="#">
-                    <img src="../static/images/icon/telegram-svgrepo-com.svg"></img>
+                    <img class="my-icons" src="../static/images/icon/telegram-svgrepo-com.svg"></img>
                 </a></li>
                 <li class="ms-3"><a class="text-body-secondary" href="#">
-                    <img src="../static/images/icon/github-142-svgrepo-com.svg"></img>
+                    <img class="my-icons" src="../static/images/icon/github-142-svgrepo-com.svg"></img>
                 </a></li>
             </ul>
         </div>
     </div>
-    </div>
-
 </footer>
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>
