@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+        {% load static %}
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'styles/style.css' %}" rel="stylesheet">
+
+    </head>
+    <body>
+    {% block content %}
+    {% endblock %}
+    </body>
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    </html>

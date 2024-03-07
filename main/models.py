@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -45,4 +47,12 @@ class RecipeCategory(models.Model):
 
 class User(AbstractUser):
     gender = models.CharField(max_length=1, choices=[('M', 'Мужчина'), ('F', 'Женщина')])
-    age = models.PositiveIntegerField(blank=True, null=True, validators=[MinValueValidator(12), MaxValueValidator(100)])
+    birth_date = models.DateField(blank=True, null=True)
+    age = models.PositiveIntegerField(null=True, blank=True,
+                                      validators=[MinValueValidator(1), MaxValueValidator(100)])
+
+    def save(self, *args, **kwargs):
+        if self.birth_date:
+            days = datetime.date.today() - self.birth_date
+            self.age = days.days // 365
+        super().save(*args, **kwargs)

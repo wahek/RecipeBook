@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
@@ -24,11 +24,11 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">Книга рецептов</a>
                 </li>
-                {% if request.user.is_authentificated %}
+                {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
-                            {{ request.user }}
+                            {{ user }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Профиль</a></li>
@@ -63,7 +63,8 @@
         </div>
     </div>
 </nav>
-
+{% block content %}
+{% endblock %}
 <footer class="border-top bg-light fixed-bottom">
     <div class="d-flex flex-wrap justify-content-between align-items-center py-4 container-lg">
         <div class="col-md-4 d-flex align-items-center">

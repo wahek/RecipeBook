@@ -1,27 +1,17 @@
 from django import forms
-from .models import User, Recipe, RecipeCategory, RecipeIngredient, Category, Ingredient
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+
+User = get_user_model()
 
 
-class UserFormRegistration(UserCreationForm):
+class UserAuthenticationForm(AuthenticationForm, forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', 'age', 'gender']
+        fields = ('username', 'password')
 
 
-class UserFormChange(UserChangeForm):
+class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'age', 'gender']
-
-
-class UserFormLogin(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['email', 'password']
-
-
-class RecipeForm(forms.ModelForm):
-    class Meta:
-        model = Recipe
-        exclude = ['created_at', 'updated_at', 'view', 'is_active', 'author']
+        fields = ('username', 'email', 'password1', 'password2', 'gender', 'birth_date')

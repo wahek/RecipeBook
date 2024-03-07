@@ -1,25 +1,30 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
-from django.contrib import messages
-from .models import User
-from .forms import UserFormRegistration, UserFormLogin
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from .forms import CustomUserCreationForm
+from django.shortcuts import render, redirect
+from django.views import View
 
 
-def index(request):
-    return render(request, 'index.html')
-
-
-class UserFormRegistrationView:
-    form_class = UserFormRegistration
-    template_name = 'registration.html'
+class Registration(View):
+    template_name = 'registration/registration.html'
 
     def get(self, request):
-        form = self.form_class
-        return render(request, self.template_name, {'form': form})
+        context = {
+            'form': CustomUserCreationForm()
+        }
+        return render(request, self.template_name, context)
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        form = CustomUserCreationForm(request.POST)
+
         if form.is_valid():
             form.save()
-            return redirect('signin')
-        return render(request, self.template_name, {'form': form})
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            return redirect('index')
+        context = {
+            'form': form
+        }
+        return render(request, self.template_name, context)
