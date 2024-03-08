@@ -12,6 +12,11 @@ class UserAuthenticationForm(AuthenticationForm, forms.ModelForm):
 
 
 class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(
+        label="Email",
+        widget=forms.EmailInput(attrs={'autocomplete': 'email', }),
+    )
+
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2', 'gender', 'birth_date')

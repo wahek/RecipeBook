@@ -46,6 +46,7 @@ class RecipeCategory(models.Model):
 
 
 class User(AbstractUser):
+    email = models.EmailField(max_length=254)
     gender = models.CharField(max_length=1, choices=[('M', 'Мужчина'), ('F', 'Женщина')])
     birth_date = models.DateField(blank=True, null=True)
     age = models.PositiveIntegerField(null=True, blank=True,

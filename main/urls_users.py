@@ -5,5 +5,5 @@ from . import views_users
 urlpatterns = [
 
     path('', include('django.contrib.auth.urls')),
-    path('registeration/', views_users.Registration.as_view(), name='registration'),
+    path('registration/', views_users.Registration.as_view(), name='registration'),
 ]
