@@ -129,7 +129,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 STATIC_URL = '/static/'
 r_t = os.path.join(BASE_DIR, 'staticfiles')
-d_t = [os.path.join(BASE_DIR, 'static')]
+d_t = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = d_t
 STATICFILES_DIRS = r_t
 
