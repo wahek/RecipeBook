@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <main class="container">
+        <div class="row row-cols-1 row-cols-md-2 g-4 mt-5">
+            {% for recipe in recipes_page %}
+                <div class="col container-md">
+                    <a href="{% url 'recipe' pk=recipe.pk %}" class="text-decoration-none text-dark">
+                        <div class="card mb-3">
+                            <img src="{{ recipe.img.url }}" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ recipe.name }}</h5>
+                                <p class="card-text">{{ recipe.description }}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% if recipes_page.has_other_pages %}
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if recipes_page.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ recipes_page.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                                <span class="visually-hidden">Previous</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for page_number in recipes_page.paginator.page_range %}
+                        <li class="page-item {% if page_number == recipes_page.number %}active{% endif %}">
+                            <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if recipes_page.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ recipes_page.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                                <span class="visually-hidden">Next</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    </main>
+{% endblock %}

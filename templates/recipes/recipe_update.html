@@ -1,0 +1,21 @@
+{% extends 'index.html' %}
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/admin/css/forms.css">
+    <script type="text/javascript" src="/static/bootstrap/js/jsi18n.js"></script>
+    <script src="/static/admin/js/core.js"></script>
+    <script src="/static/admin/js/SelectBox.js"></script>
+    <script src="/static/admin/js/SelectFilter2.js"></script>
+    <script src="/static/admin/js/urlify.js"></script>
+    {% endblock %}
+
+{% block content %}
+
+    <div class="container-lg">
+        <h2>Изменить рецепт: {{ recipe.name }}</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+    </form>
+    </div>
+{% endblock %}

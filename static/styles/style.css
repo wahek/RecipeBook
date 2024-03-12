@@ -7,7 +7,12 @@
 }
 
 .my-icons:hover {
-    border: #343a40  1px solid;
+    border: #343a40 1px solid;
     transition: 0.3s;
     background: #d2d2d2;
+}
+
+.my-h1 {
+    background-color: #2c0b0e;
+    color: #fff;
 }

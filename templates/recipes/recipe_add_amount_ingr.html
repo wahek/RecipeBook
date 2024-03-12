@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+
+{% block content %}
+    <h1>Изменение ингредиентов</h1>
+    <form action="{% url 'ingredients_add' recipe_id %}" method="post">
+        {% csrf_token %}
+        {% for k, v in errors.items %}
+            {{ k }} {{ v }}
+        {% endfor %}
+        {% for ingredient in ingredients %}
+            <div>
+                <p>Ингредиент: {{ ingredient.ingredient.name }}</p>
+                <label for="amount_{{ ingredient.ingredient.id }}">Количество:</label>
+                <input type="number" name="amount_{{ ingredient.ingredient.id }}" id="amount_{{ ingredient.ingredient.id }}" value="{{ ingredient.amount }}">
+                <select name="unit_{{ ingredient.ingredient.id }}" id="unit_{{ ingredient.ingredient.id }}">
+                    {% for unit in ingredient.UNIT_CHOICES %}
+                        <option value="{{ unit.0 }}" {% if unit.0 == ingredient.unit %} selected {% endif %}>{{ unit.1 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        {% endfor %}
+        <button type="submit">Сохранить</button>
+    </form>
+{% endblock %}

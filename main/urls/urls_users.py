@@ -1,9 +1,11 @@
 from django.urls import path, include
 
-from . import views_users
+from main import views_users
 
 urlpatterns = [
 
     path('', include('django.contrib.auth.urls')),
     path('registration/', views_users.Registration.as_view(), name='registration'),
+    path('profile/', views_users.Profile.as_view(), name='profile'),
+    path('profile/change/', views_users.ProfileChange.as_view(), name='change_profile'),
 ]

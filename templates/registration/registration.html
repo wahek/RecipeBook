@@ -1,10 +1,130 @@
 {% extends 'base_link.html' %}
+{% load static %}
+
+{% block extrahead %}
+    <link href="{% static 'styles/style.css' %}" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-    <h1>Registration</h1>
-    <form action="{% url 'registration' %}" method="post">
-    {{ form.as_p }}
-    {% csrf_token %}
-    <button type="submit">submit</button>
-    </form>
+    {#    <div class="container">#}
+    {#        <main>#}
+    {#            <div class="py-5 text-center">#}
+    {#                <img class="d-block mx-auto mb-4" src="{% static 'images/img/logo2.png' %}" alt="" width="100"#}
+    {#                     height="100">#}
+    {#                <h2>Регистрация</h2>#}
+    {#            </div>#}
+    {##}
+    {#            <div class="col-md-7 col-lg-8">#}
+    {#                <div class="">#}
+    {#                    <h4 class="mb-3">Введите свои данные</h4>#}
+    {#                    <p>Их всегда можно поменять в своём профиле</p>#}
+    {#                </div>#}
+    {#                <form action="{% url 'registration' %}" method="post">#}
+    {#                    {% csrf_token %}#}
+    {#                    <div class="pb-2">#}
+    {#                        <div class="col-12">#}
+    {#                            <label for="username" class="form-label">Имя</label>#}
+    {#                            <div class="input-group has-validation">#}
+    {#                                <span class="input-group-text">@</span>#}
+    {#                                <input type="text" class="form-control" id="username" placeholder="Username"#}
+    {#                                       required="">#}
+    {#                                <div class="invalid-feedback">#}
+    {#                                    Your username is required.#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {##}
+    {#                        <div class="col-12">#}
+    {#                            <label for="email" class="form-label">Email <span#}
+    {#                                    class="text-body-secondary"></span></label>#}
+    {#                            <input type="email" class="form-control" id="email" placeholder="you@example.com">#}
+    {#                            <div class="invalid-feedback">#}
+    {#                                Please enter a valid email address for shipping updates.#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {##}
+    {#                        <div class="col-12">#}
+    {#                            <label for="address" class="form-label">Пароль</label>#}
+    {#                            <input type="password" class="form-control" id="address" required="" name="password1">#}
+    {#                            <div class="invalid-feedback">#}
+    {#                                Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only..#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {##}
+    {#                        <div class="col-12">#}
+    {#                            <label for="address2" class="form-label">Повторите пароль <span#}
+    {#                                    class="text-body-secondary"></span></label>#}
+    {#                            <input type="password" class="form-control" id="address2" name="password2">#}
+    {#                        </div>#}
+    {#                        <div class="col-12">#}
+    {#                            <label for="gender" class="form-label">Пол</label>#}
+    {#                            <select class="form-select" id="gender" name="gender">#}
+    {#                                <option value="M">Мужчина</option>#}
+    {#                                <option value="F">Женщина</option>#}
+    {#                            </select>#}
+    {#                        </div>#}
+    {##}
+    {#                        <!-- Поле для ввода даты рождения -->#}
+    {#                        <div class="col-12">#}
+    {#                            <label for="birth_date" class="form-label">Дата рождения</label>#}
+    {#                            <input type="date" class="form-control" id="birth_date" name="birth_date">#}
+    {#                        </div>#}
+    {#                    </div>#}
+    {##}
+    {##}
+    {#                    <button class="w-100 btn btn-dark btn-lg" type="submit">Отправить</button>#}
+    {#                </form>#}
+    {#            </div>#}
+    {#            <div class="d-flex container-md">#}
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="container-lg">
+            <div class="card shadow p-3 mb-5 bg-body rounded">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Регистрация</h2>
+                    <h4 class="card-subtitle text-muted text-center mb-4">Дополнить и изменить данные всегда можно в
+                        профиле</h4>
+                    <form method="post" action="{% url 'registration' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.username.label_tag }}
+                            {{ form.username }}
+                            <div class="invalid-feedback">
+                                {{ form.username.errors }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            <div class="invalid-feedback">
+                                {{ form.email.errors }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form.password1.label_tag }}
+                            {{ form.password1 }}
+                            <div class="invalid-feedback">
+                                {{ form.password1.errors }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form.password2.label_tag }}
+                            {{ form.password2 }}
+                            <div class="invalid-feedback">
+                                {{ form.password2.errors }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            {{ form.gender.label_tag }}
+                            {{ form.gender }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.birth_date.label_tag }}
+                            {{ form.birth_date }}
+                        </div>
+                        <button type="submit" class="btn btn-dark w-100">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
