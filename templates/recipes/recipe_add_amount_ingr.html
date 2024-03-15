@@ -1,15 +1,18 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <h1>Изменение ингредиентов</h1>
+    <main class="container">
+    <h1>Добавьте количество ингредиентов</h1>
     <form action="{% url 'ingredients_add' recipe_id %}" method="post">
         {% csrf_token %}
         {% for k, v in errors.items %}
             {{ k }} {{ v }}
         {% endfor %}
         {% for ingredient in ingredients %}
-            <div>
-                <p>Ингредиент: {{ ingredient.ingredient.name }}</p>
+            <ul>
+            <li class="d-flex w-75 justify-content-between">
+                <h5 class="">{{ ingredient.ingredient.name }}</h5>
+            <div class="end">
                 <label for="amount_{{ ingredient.ingredient.id }}">Количество:</label>
                 <input type="number" name="amount_{{ ingredient.ingredient.id }}" id="amount_{{ ingredient.ingredient.id }}" value="{{ ingredient.amount }}">
                 <select name="unit_{{ ingredient.ingredient.id }}" id="unit_{{ ingredient.ingredient.id }}">
@@ -18,7 +21,14 @@
                     {% endfor %}
                 </select>
             </div>
+            </li>
+            </ul>
         {% endfor %}
-        <button type="submit">Сохранить</button>
+        <button class="btn btn-dark" type="submit">Сохранить</button>
     </form>
+    <div class="mt-5 d-flex gap-3 align-items-center">
+    <h5>Если вы не хотите этого делать, этот блок можно пропустить</h5>
+    <a href="{% url 'recipe' recipe_id %}"><button class="btn btn-secondary">Пропустить</button></a>
+    </div>
+    </main>
 {% endblock %}

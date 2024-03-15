@@ -81,7 +81,7 @@ class RecipeAddIngredientsView(View):
             }
             return render(request, self.template_name, context)
         # Если ошибок нет, перенаправляем пользователя
-        return redirect('index')
+        return redirect('recipe', pk=recipe_id)
 
 
 
