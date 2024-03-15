@@ -54,13 +54,13 @@ class RecipeForm(forms.ModelForm):
 
 class RecipeAddForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea)
-    linked_bars = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
+    ingredients = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
                                                  widget=FilteredSelectMultiple(Ingredient._meta.verbose_name_plural,
                                                                                False))
 
     class Meta:
         model = Recipe
-        fields = ['name', 'cooking_time', 'description', 'instructions', 'linked_bars', 'img']
+        fields = ['name', 'cooking_time', 'description', 'instructions', 'img', 'ingredients']
 
 
 class RecipeAddIngredientsForm(forms.ModelForm):

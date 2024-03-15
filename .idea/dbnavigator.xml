@@ -27,9 +27,8 @@
     <open-files>
       <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_ingredient" />
       <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_recipe" />
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_user" />
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="consoles/Connection" />
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_category" />
+      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_recipeingredient" />
+      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_recipe_ingredients" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
@@ -46,6 +45,8 @@
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_recipe" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_recipecategory" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.auth_group" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.sqlite_sequence" active-filter-id="" />
+    <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_testing" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_recipeingredient" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_ingredient" active-filter-id="EMPTY_FILTER" />
   </component>

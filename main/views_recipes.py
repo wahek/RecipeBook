@@ -21,6 +21,12 @@ class RecipeAddView(View):
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
+            form.save_m2m()
+            ingredients = form.cleaned_data['ingredients']
+            for ingredient in ingredients:
+                RecipeIngredient.objects.create(
+                    recipe=recipe,
+                    ingredient=ingredient,)
             return redirect('ingredients_add', recipe_id=recipe.id)
         return render(request, self.template_name, {'form': form})
 
@@ -76,6 +82,8 @@ class RecipeAddIngredientsView(View):
             return render(request, self.template_name, context)
         # Если ошибок нет, перенаправляем пользователя
         return redirect('index')
+
+
 
 
 class IndexView(View):
