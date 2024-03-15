@@ -84,7 +84,7 @@
     <div class="carousel-inner">
         {% for recipe in choice_recipes %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="10000">
-                <img src="{{ recipe.img.rul }}" class="d-block w-100 container-xl" alt="...">
+                <img src="{{ recipe.img.url }}" class="d-block w-100 container-xl" alt="...">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ recipe.name }}</h5>
                     <p>{{ recipe.description }}</p>

@@ -25,10 +25,10 @@
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_user_groups" />
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_user" />
       <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_ingredient" />
       <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_recipe" />
+      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_user" />
+      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="consoles/Connection" />
       <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_category" />
     </open-files>
   </component>
