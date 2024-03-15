@@ -1,6 +1,4 @@
 from django.urls import path
-from django.conf import settings
-from django.conf.urls.static import static
 
 from main import views_recipes
 
@@ -12,4 +10,3 @@ urlpatterns = [
     path('recipe/<int:pk>/', views_recipes.RecipeView.as_view(), name='recipe'),
     path('recipe/update/<int:pk>/', views_recipes.RecipeUpdateView.as_view(), name='recipe_update'),
 ]
-              # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

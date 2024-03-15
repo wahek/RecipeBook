@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import RecipeIngredientForm
 
-from .models import Recipe, User, Category, Ingredient, RecipeIngredient
+from .models import Recipe, User, Category, Ingredient, RecipeIngredient, TestIng
 
 
 @admin.register(Recipe)
@@ -43,3 +43,4 @@ class RecipeIngredientAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Ingredient)
+admin.site.register(TestIng)

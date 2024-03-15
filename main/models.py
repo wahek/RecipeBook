@@ -13,7 +13,7 @@ class Recipe(models.Model):
     cooking_time = models.PositiveIntegerField(default=None, validators=[MinValueValidator(5), MaxValueValidator(1000)])
     author = models.ForeignKey('User', null=True, related_name='user', on_delete=models.SET_NULL)
     view = models.PositiveIntegerField(default=0)
-    img = models.ImageField(upload_to='media/', default='/media/empty.png')
+    img = models.ImageField(upload_to='recipe', default='empty.png')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
@@ -68,3 +68,7 @@ class User(AbstractUser):
             days = datetime.date.today() - self.birth_date
             self.age = days.days // 365
         super().save(*args, **kwargs)
+
+
+class TestIng(models.Model):
+    img = models.ImageField()
