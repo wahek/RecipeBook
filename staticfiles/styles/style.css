@@ -1,0 +1,24 @@
+.my-icons {
+    margin: 0;
+    padding: 2px;
+    border: #f8f9fa 1px solid;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.my-icons:hover {
+    border: #343a40 1px solid;
+    transition: 0.3s;
+    background: #d2d2d2;
+}
+
+.my-href {
+    margin-top: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.my-href:hover {
+    text-decoration: underline;
+}
+
