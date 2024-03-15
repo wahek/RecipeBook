@@ -30,5 +30,10 @@
             </h5>
             <p>{{ recipe.instructions }}</p>
         </div>
+    <div>
+        {% if recipe.author_id == request.user.id %}
+            <a href="{% url 'recipe_update' recipe.id %}"><button class="btn btn-dark">Изменить</button></a>
+        {% endif %}
+    </div>
     </main>
 {% endblock %}
