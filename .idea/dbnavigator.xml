@@ -24,12 +24,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_ingredient" />
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_recipe" />
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_recipeingredient" />
-      <object connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" object-ref="schemas/main/tables/main_recipe_ingredients" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" />
@@ -103,7 +98,7 @@
           <session-management value="true" />
           <ddl-file-binding value="true" />
           <database-logging value="true" />
-          <connect-automatically value="true" />
+          <connect-automatically value="false" />
           <restore-workspace value="true" />
           <restore-workspace-deep value="false" />
           <environment-type value="default" />

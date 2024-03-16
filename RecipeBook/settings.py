@@ -25,7 +25,7 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'ivanpydev.pythonanywhere.com']
 #'127.0.0.1', 'ivanpydev.pythonanywhere.com'
@@ -78,27 +78,27 @@ WSGI_APPLICATION = 'RecipeBook.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 #MYSQL
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": os.getenv("MYSQL_DBNAME"),
-        "USER": os.getenv("MYSQL_USER"),
-        "PASSWORD": os.getenv("MYSQL_PASSWORD"),
-        "HOST": os.getenv("MYSQL_HOST"),
-        "OPTIONS": {
-            "init_command": "SET NAMES 'utf8mb4';SET sql_mode = 'STRICT_TRANS_TABLES'",
-            "charset": "utf8mb4",
-        },
-    }
-}
-
-#SQLITE
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": os.getenv("MYSQL_DBNAME"),
+#         "USER": os.getenv("MYSQL_USER"),
+#         "PASSWORD": os.getenv("MYSQL_PASSWORD"),
+#         "HOST": os.getenv("MYSQL_HOST"),
+#         "OPTIONS": {
+#             "init_command": "SET NAMES 'utf8mb4';SET sql_mode = 'STRICT_TRANS_TABLES'",
+#             "charset": "utf8mb4",
+#         },
 #     }
 # }
+
+# SQLITE
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

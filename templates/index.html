@@ -10,8 +10,8 @@
     {% endblock %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" data-bs-theme="dark">
-    <div class="container-fluid container-lg">
+<nav class="navbar navbar-expand-lg container-fluid bg-body-tertiary fixed-top" data-bs-theme="dark">
+    <div class="container-fluid container-md">
         <a class="navbar-brand text-success" href="{% url 'index' %}">
             <img src="{% static 'images/img/logo2.png' %}" alt="Logo" width="80" height="80"
                  class="d-inline-block align-text-center">
@@ -70,7 +70,7 @@
         </div>
     </div>
 </nav>
-<div class="mt-5 mb-5 pt-5"></div>
+<div class="mt-5 mb-5 pt-2"></div>
 {% block content %}
     <div id="carouselExampleDark" class="carousel carousel-dark slide">
     <div class="carousel-indicators">
@@ -83,28 +83,32 @@
     </div>
     <div class="carousel-inner">
         {% for recipe in choice_recipes %}
+            <a href="{% url 'recipe' recipe.id %}">
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="10000">
-                <img src="{{ recipe.img.url }}" class="d-block w-100 container-xl" alt="...">
+                <div class="img-carousel">
+                    <img src="{{ recipe.img.url }}" loading="lazy" class="d-block w-100" alt="...">
+                </div>
                 <div class="carousel-caption d-none d-md-block">
                     <h5>{{ recipe.name }}</h5>
-                    <p>{{ recipe.description }}</p>
+                    <p class="flex-lg-wrap">{{ recipe.description }}</p>
                 </div>
             </div>
         {% endfor %}
+    </a>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
                 data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <img class="w-25" src="{% static 'images/icon/vector-left.svg' %}">
             <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
                 data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <img class="w-25" src="{% static 'images/icon/vector-right.svg' %}">
             <span class="visually-hidden">Next</span>
         </button>
     </div>
 {% endblock %}
-<div class="mt-5 mb-5 pt-1"></div>
-<footer class="border-top bg-light fixed-bottom">
+<div class="mt-5 mb-5 pt-1 container-sm"></div>
+<footer class="border-top bg-light container-fluid fixed-bottom">
     <div class="d-flex flex-wrap justify-content-between align-items-center py-4 container-lg">
         <div class="col-md-4 d-flex align-items-center">
             <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">

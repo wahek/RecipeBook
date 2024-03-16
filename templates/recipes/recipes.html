@@ -3,12 +3,12 @@
 
 {% block content %}
     <main class="container">
-        <div class="row row-cols-1 row-cols-md-2 g-4 mt-5">
+        <div class="row row-cols-1 row-cols-md-2 g-4 mt-5 pt-3">
             {% for recipe in recipes_page %}
                 <div class="col container-md">
                     <a href="{% url 'recipe' pk=recipe.pk %}" class="text-decoration-none text-dark">
                         <div class="card mb-3">
-                            <img src="{{ recipe.img.url }}" class="card-img-top" alt="...">
+                            <img src="{{ recipe.img.url }}" class="card-img-top" alt="{{ recipe.name }}">
                             <div class="card-body">
                                 <h5 class="card-title">{{ recipe.name }}</h5>
                                 <p class="card-text">{{ recipe.description }}</p>
