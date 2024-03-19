@@ -7,7 +7,7 @@ from django.views.generic import UpdateView
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import User, Recipe
+from .models import User, Recipe, RecipeRating
 
 
 class Registration(View):

@@ -18,6 +18,10 @@ class Recipe(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_active = models.BooleanField(default=True)
 
+    def average_rating(self):
+        total_rating = RecipeRating.objects.filter(recipe=self).aggregate(models.Avg('rating'))['rating__avg']
+        return round(total_rating, 1) if total_rating else 0
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
@@ -70,5 +74,7 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
 
-class TestIng(models.Model):
-    img = models.ImageField()
+class RecipeRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])

@@ -30,7 +30,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
-                            {{ user }}
+                            <img class="my-person-icon" src="{% static 'images/icon/person-circle.svg' %}"> {{ user }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
@@ -50,7 +50,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
-                            Аккаунт
+                            <img src="{% static 'images/icon/person-circle.svg' %}">
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{% url 'login' %}">Вход</a></li>
@@ -94,7 +94,7 @@
                 </div>
             </div>
         {% endfor %}
-    </a>
+        </a>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
                 data-bs-slide="prev">
             <img class="w-25" src="{% static 'images/icon/vector-left.svg' %}">

@@ -9,9 +9,13 @@
                     <a href="{% url 'recipe' pk=recipe.pk %}" class="text-decoration-none text-dark">
                         <div class="card mb-3">
                             <img src="{{ recipe.img.url }}" class="card-img-top" alt="{{ recipe.name }}">
-                            <div class="card-body">
+                            <div class="card-body pb-0">
                                 <h5 class="card-title">{{ recipe.name }}</h5>
                                 <p class="card-text">{{ recipe.description }}</p>
+                                <div class="d-flex justify-content-between">
+                                    <p class="text-body-secondary">Просмотры: {{ recipe.view }}</p>
+                                    <p class="text-body-secondary">Рейтинг: {{ recipe.average_rating }} / 5</p>
+                                </div>
                             </div>
                         </div>
                     </a>

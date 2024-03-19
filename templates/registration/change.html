@@ -1,54 +1,13 @@
 {% extends 'index.html' %}
 
 {% block content %}
-    <div class="container-lg">
+    <div class="container-lg d-flex justify-content-center align-items-center" style="min-height: 75vh;">
         <div class="card shadow">
-            <div class="card-body">
+            <div class="card-body ">
                 <h2 class="card-title text-center mb-4">Изменение профиля</h2>
                 <form action="{% url 'change_profile' %}" method="post">
                     {% csrf_token %}
-                    <div class="mb-3">
-                        {{ form.username.label_tag }}
-                        {{ form.username }}
-                        <div class="invalid-feedback">
-                            {{ form.username.errors }}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        {{ form.first_name.label_tag }}
-                        {{ form.first_name }}
-                        <div class="invalid-feedback">
-                            {{ form.first_name.errors }}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        {{ form.last_name.label_tag }}
-                        {{ form.last_name }}
-                        <div class="invalid-feedback">
-                            {{ form.last_name.errors }}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        {{ form.email.label_tag }}
-                        {{ form.email }}
-                        <div class="invalid-feedback">
-                            {{ form.email.errors }}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        {{ form.gender.label_tag }}
-                        {{ form.gender }}
-                        <div class="invalid-feedback">
-                            {{ form.gender.errors }}
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        {{ form.birth_date.label_tag }}
-                        {{ form.birth_date }}
-                        <div class="invalid-feedback">
-                            {{ form.birth_date.errors }}
-                        </div>
-                    </div>
+                    {{ form.as_p }}
                     <button type="submit" class="btn btn-dark w-100">Сохранить</button>
                 </form>
             </div>

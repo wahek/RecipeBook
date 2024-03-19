@@ -3,15 +3,9 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
-from .models import Recipe, RecipeIngredient, Ingredient
+from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating
 
 User = get_user_model()
-
-
-# class UserAuthenticationForm(AuthenticationForm, forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fields = ('username', 'password')
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -53,17 +47,36 @@ class RecipeForm(forms.ModelForm):
 
 
 class RecipeAddForm(forms.ModelForm):
-    description = forms.CharField(widget=forms.Textarea)
-    ingredients = forms.ModelMultipleChoiceField(queryset=Ingredient.objects.all(),
+    ingredients = forms.ModelMultipleChoiceField(label=' ', queryset=Ingredient.objects.all(),
                                                  widget=FilteredSelectMultiple(Ingredient._meta.verbose_name_plural,
                                                                                False))
+    name = forms.CharField(max_length=100, label="Название рецепта",
+                           widget=forms.TextInput(
+                               attrs={'class': 'short-input-form, w-100', 'placeholder': "Название рецепта"}))
+    description = forms.CharField(max_length=200, label="Краткое описание", widget=forms.Textarea(
+        attrs={'class': 'short-input-form, w-100', 'placeholder': "Описание рецепта"}))
+    instructions = forms.CharField(label="Как готовить", widget=forms.Textarea(
+        attrs={'class': 'short-input-form, w-100', 'placeholder': "Рецепт"}))
+    img = forms.ImageField(label='Добавьте изображение', required=False)
+    cooking_time = forms.IntegerField(label="Время приготовления (в минутах)", min_value=1, max_value=1000)
 
     class Meta:
         model = Recipe
-        fields = ['name', 'cooking_time', 'description', 'instructions', 'img', 'ingredients']
+        fields = ['name', 'description', 'instructions', 'img', 'cooking_time', 'ingredients']
 
 
 class RecipeAddIngredientsForm(forms.ModelForm):
     class Meta:
         model = RecipeIngredient
         fields = '__all__'
+
+
+class RatingRecipeForm(forms.ModelForm):
+    RATING_CHOICES = [(i, '') for i in range(1, 5 + 1)]
+    rating = forms.ChoiceField(label='Оцените рецепт',
+                               widget=forms.RadioSelect(attrs={'class': 'd-flex gap-3 position-relative'}),
+                               choices=RATING_CHOICES, )
+
+    class Meta:
+        model = RecipeRating
+        fields = ['rating']

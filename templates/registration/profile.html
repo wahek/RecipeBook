@@ -32,11 +32,15 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ recipe.name }}</h5>
                             <p class="card-text">{{ recipe.description }}</p>
-                            <a href="{% url 'recipe' recipe.id %}" class="btn btn-dark">К рецепту</a>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'recipe' recipe.id %}" class="btn btn-dark">К рецепту</a>
+                                <p class="mt-auto mb-auto text-body-secondary">{{ recipe.view }} Просмотров |
+                                    Рейтинг {{ recipe.average_rating }} / 5</p>
+                            </div>
                         </div>
                     </div>
                 {% endfor %}
-                {% else %}
+            {% else %}
                 <h5 class="mt-5 text-center">Здесь будут ваши рецепты. Поделитесь</h5>
             {% endif %}
         </div>

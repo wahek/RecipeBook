@@ -4,8 +4,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from random import choices
 
-from .forms import RecipeAddForm, RecipeAddIngredientsForm
-from .models import Recipe, RecipeIngredient, Ingredient
+from .forms import RecipeAddForm, RecipeAddIngredientsForm, RatingRecipeForm
+from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating
+
+MAX_RATING = 5
 
 
 class RecipeAddView(View):
@@ -26,7 +28,7 @@ class RecipeAddView(View):
             for ingredient in ingredients:
                 RecipeIngredient.objects.create(
                     recipe=recipe,
-                    ingredient=ingredient,)
+                    ingredient=ingredient, )
             return redirect('ingredients_add', recipe_id=recipe.id)
         return render(request, self.template_name, {'form': form})
 
@@ -84,8 +86,6 @@ class RecipeAddIngredientsView(View):
         return redirect('recipe', pk=recipe_id)
 
 
-
-
 class IndexView(View):
     template_name = 'index.html'
 
@@ -105,7 +105,7 @@ class RecipesView(View):
     recipes_per_page = 10  # Количество рецептов на странице
 
     def get(self, request):
-        recipes = Recipe.objects.all()
+        recipes = Recipe.objects.all().order_by('view')
 
         # Создание объекта Paginator
         paginator = Paginator(recipes, self.recipes_per_page)
@@ -115,11 +115,8 @@ class RecipesView(View):
         try:
             recipes_page = paginator.page(page_number)
         except PageNotAnInteger:
-            # Если номер страницы не является целым числом, отображаем первую страницу
             recipes_page = paginator.page(1)
         except EmptyPage:
-            # Если номер страницы вне диапазона (например, 9999),
-            # отображаем последнюю доступную страницу
             recipes_page = paginator.page(paginator.num_pages)
 
         context = {
@@ -130,16 +127,47 @@ class RecipesView(View):
 
 class RecipeView(View):
     template_name = 'recipes/recipe.html'
+    form = RatingRecipeForm
 
     def get(self, request, pk):
+
         recipe = get_object_or_404(Recipe, id=pk)
+        recipe.view += 1
         ingredients = RecipeIngredient.objects.filter(recipe=recipe)
+        rating = recipe.average_rating()
+        full_star = int(rating)
+        if rating - full_star > 0.3:
+            half_star = 1
+        else:
+            half_star = 0
+        empty_star = MAX_RATING - full_star - half_star
         context = {
+            'max_rating': range(MAX_RATING),
             'recipe': recipe,
             'ingredients': ingredients,
+            'recipe_rating': rating,
+            'full_star': range(full_star),
+            'half_star': range(half_star),
+            'empty_star': range(empty_star),
+            'form': self.form,
         }
         return render(request, self.template_name, context)
 
+    def post(self, request, pk):
+        recipe = get_object_or_404(Recipe, id=pk)
+        user = request.user
+        if user.is_authenticated:
+            form = self.form(request.POST)
+            if form.is_valid():
+                rating = form.cleaned_data['rating']
+                if RecipeRating.objects.filter(user=user, recipe=recipe).exists():
+                    RecipeRating.objects.filter(user=user, recipe=recipe).update(rating=rating)
+                else:
+                    RecipeRating.objects.create(user=user, recipe=recipe, rating=rating)
+                return redirect('recipe', pk=pk)
+        else:
+            return redirect('login')
+        return redirect('recipe', pk=pk)
 
 class RecipeCheckView(View):
     template_name = 'recipes/recipe_check.html'

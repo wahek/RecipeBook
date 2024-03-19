@@ -1,19 +1,48 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block content %}
     <main class="container-lg">
-        <div class="card mb-3"">
+        <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-4">
                     <img src="{{ recipe.img.url }}" class="img-fluid rounded-start" alt="Еда"
                          style="border: black solid 1px">
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-8  position-relative">
                     <div class="card-body">
-                        <h5 class="card-title">{{ recipe.name }}</h5>
-                        <p class="card-text flex-lg-wrap">{{ recipe.description }}</p>
+                        <h5 class="card-title card-header fs-3">{{ recipe.name }}</h5>
+                        <p class="card-text flex-lg-wrap mt-2 fw-bold fs-4">{{ recipe.description }}</p>
                         <p class="card-text"><small
-                                class="text-body-secondary">Обновлено: {{ recipe.updated_at }}</small></p>
+                                class="text-body fs-5">Время приготовления: {{ recipe.cooking_time }} минут
+                        </small><img class="card-icon" src="{% static 'images/icon/timer.svg' %}"></p>
+                        <p class="card-text"><small
+                                class="text-body-secondary fs-5">Просмотры: {{ recipe.view }}</small></p>
+                        {% if recipe_rating == 0 %}
+                            <div class="d-flex gap-3">
+                                <p class="card-text"><small
+                                        class="text-body-secondary fs-5">Рейтинг: {{ recipe_rating }}/5</small>
+                                <div class="d-flex">
+                                    {% for _ in full_star %}
+                                        <img class="rating-star-icon" src="{% static 'images/icon/star-fill.svg' %}"
+                                             alt=" * ">
+                                    {% endfor %}
+                                    {% if half_star %}
+                                        <img class="rating-star-icon" src="{% static 'images/icon/star-half.svg' %}"
+                                             alt=" ' ">
+                                    {% endif %}
+                                    {% for _ in empty_star %}
+                                        <img class="rating-star-icon" src="{% static 'images/icon/star.svg' %}"
+                                             alt=" _ ">
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            </p>
+                        {% else %}
+                            <p class="card-text"><small class="text-body-tertiary fs-5">Нет рейтинга</small></p>
+                        {% endif %}
+                        <p class="card-text position-absolute fixed-bottom text-end"><small
+                                class="text-body-secondary p-1 fs-6">Обновлено: {{ recipe.updated_at }}</small></p>
                     </div>
                 </div>
             </div>
@@ -22,7 +51,8 @@
             <h4>Ингредиенты:</h4>
             <ul>
                 {% for ingredient in ingredients %}
-                    <li>{{ ingredient.ingredient.name }}{% if ingredient.amount %} - {{ ingredient.amount }} {{ ingredient.unit }}{% endif %}</li>
+                    <li>{{ ingredient.ingredient.name }}{% if ingredient.amount %} - {{ ingredient.amount }}
+                        {{ ingredient.unit }}{% endif %}</li>
                 {% endfor %}
             </ul>
             <h5>
@@ -30,10 +60,23 @@
             </h5>
             <p>{{ recipe.instructions }}</p>
         </div>
-    <div>
-        {% if recipe.author_id == request.user.id %}
-            <a href="{% url 'recipe_update' recipe.id %}"><button class="btn btn-dark">Изменить</button></a>
-        {% endif %}
-    </div>
+        <div>
+            {% if recipe.author_id == request.user.id %}
+                <a href="{% url 'recipe_update' recipe.id %}">
+                    <button class="btn btn-dark">Изменить</button>
+                </a>
+            {% else %}
+                <form class="fs-5" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="position-absolute my-rating-gap">
+                        {% for i in max_rating %}
+                            <img class="icon-post-rating" src="{% static 'images/icon/star-fill.svg' %}" alt="*">
+                        {% endfor %}
+                    <button class="btn btn-dark" type="submit">Оценить</button>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
     </main>
 {% endblock %}

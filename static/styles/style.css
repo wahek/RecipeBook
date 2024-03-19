@@ -47,3 +47,44 @@
     overflow: hidden;
 }
 
+.short-input-form {
+    width: 400px;
+}
+
+.my-form label {
+    font-size: 20px;
+}
+
+.my-form p {
+    padding-bottom: 10px;
+}
+
+.active > .page-link, .page-link.active {
+    background-color: var(--bs-dark);
+    border-color: #212529;
+}
+
+.pagination {
+    --bs-pagination-color: none;
+}
+
+.card-icon {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.rating-star-icon {
+    width: 24px !important;
+    height: 24px !important;
+    margin: 2px;
+}
+
+.icon-post-rating {
+    width: 15px !important;
+    height: 15px !important;
+    margin-right: 8px;
+}
+
+.my-rating-gap {
+    margin-top: -20px;
+}
