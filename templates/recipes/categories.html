@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row container-lg m-auto">
+        {% for category in categories %}
+            <div class="col-lg-4 mb-4">
+                <div class="categories-box">
+                    <img class="categories-img" src="{{ category.img.url }}" alt="{{ category.name }}">
+                    <div class="categories-bg">
+                        <p class="categories-text">{{ category.name }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+    <div class="categories-box-latest custom-container">
+            <img class="categories-img" src="{{ latest.img.url }}" alt="{{ latest.name }}">
+            <div class="categories-bg">
+                <p class="categories-text">{{ latest.name }}</p>
+            </div>
+    </div>
+{% endblock %}

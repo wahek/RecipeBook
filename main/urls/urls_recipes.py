@@ -9,4 +9,5 @@ urlpatterns = [
     path('recipes/', views_recipes.RecipesView.as_view(), name='recipes'),
     path('recipe/<int:pk>/', views_recipes.RecipeView.as_view(), name='recipe'),
     path('recipe/update/<int:pk>/', views_recipes.RecipeUpdateView.as_view(), name='recipe_update'),
+    path('categories/', views_recipes.CategoriesView.as_view(), name='categories'),
 ]

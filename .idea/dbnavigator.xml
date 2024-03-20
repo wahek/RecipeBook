@@ -28,7 +28,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files>
-      <object connection-id="3bd615e9-4eba-4f2f-860d-edcbb566fa0b" object-ref="schemas/main/tables/main_reciperating" />
+      <object connection-id="3bd615e9-4eba-4f2f-860d-edcbb566fa0b" object-ref="schemas/main/tables/main_category" />
     </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
@@ -50,6 +50,8 @@
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_testing" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_recipeingredient" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="ccc5ff09-2c4d-4415-85fa-6b772e491e3d" dataset="main.main_ingredient" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="3bd615e9-4eba-4f2f-860d-edcbb566fa0b" dataset="main.main_category" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="3bd615e9-4eba-4f2f-860d-edcbb566fa0b" dataset="main.main_recipe" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="3bd615e9-4eba-4f2f-860d-edcbb566fa0b" dataset="main.main_reciperating" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">

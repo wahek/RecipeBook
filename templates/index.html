@@ -22,12 +22,15 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'recipes' %}">Книга рецептов</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-body-secondary" aria-current="page" href="{% url 'categories' %}">Категории</a>
+                </li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown start-50">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <img class="my-person-icon" src="{% static 'images/icon/person-circle.svg' %}"> {{ user }}
@@ -82,14 +85,16 @@
         {% endfor %}
     </div>
     <div class="carousel-inner">
-        {% for recipe in choice_recipes %}
+        {% for recipe, rati in choice_recipes %}
             <a href="{% url 'recipe' recipe.id %}">
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="10000">
                 <div class="img-carousel">
                     <img src="{{ recipe.img.url }}" loading="lazy" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-caption d-none d-md-block">
-                    <h5>{{ recipe.name }}</h5>
+                    <h5 class="">{{ recipe.name }}{{ rati }}/5 <img class="pb-1"
+                                                                    src="{% static 'images/icon/star-fill.svg' %}"
+                                                                    alt="*"></h5>
                     <p class="flex-lg-wrap">{{ recipe.description }}</p>
                 </div>
             </div>

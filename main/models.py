@@ -52,7 +52,7 @@ class RecipeIngredient(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    img = models.ImageField(upload_to='images/img_app/category', default='images/img_app/empty.png')
+    img = models.ImageField(upload_to='category', default='empty.png')
 
 
 class RecipeCategory(models.Model):

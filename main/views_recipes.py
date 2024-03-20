@@ -5,7 +5,7 @@ from django.views import View
 from random import choices
 
 from .forms import RecipeAddForm, RecipeAddIngredientsForm, RatingRecipeForm
-from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating
+from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating, Category
 
 MAX_RATING = 5
 
@@ -95,9 +95,10 @@ class IndexView(View):
             choice_recipes = choices(recipes, k=5)
         except IndexError:
             choice_recipes = recipes
+        rating = [recipe.average_rating() for recipe in choice_recipes]
         count = [i + 1 for i in range(len(choice_recipes) - 1)]
         return render(request, self.template_name,
-                      {'choice_recipes': choice_recipes, 'count': count})
+                      {'choice_recipes': zip(choice_recipes, rating), 'count': count})
 
 
 class RecipesView(View):
@@ -169,6 +170,7 @@ class RecipeView(View):
             return redirect('login')
         return redirect('recipe', pk=pk)
 
+
 class RecipeCheckView(View):
     template_name = 'recipes/recipe_check.html'
 
@@ -198,4 +200,17 @@ class RecipeUpdateView(View):
             form.save()
             return redirect('recipe', pk=pk)
         context = {'form': form, 'recipe': recipe}
+        return render(request, self.template_name, context)
+
+
+class CategoriesView(View):
+    template_name = 'recipes/categories.html'
+
+    def get(self, request):
+        categories = Category.objects.all().order_by('-id')
+        latest = categories.last()
+        context = {
+            'categories': categories[:len(categories)-1],
+            'latest': latest,
+        }
         return render(request, self.template_name, context)
