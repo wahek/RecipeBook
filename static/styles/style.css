@@ -185,6 +185,9 @@
     margin-right: auto;
     margin-left: auto;
 }
+.latest {
+    height: 200px;
+}
 
 @media screen and (max-width: 991px) {
     .categories-text {
