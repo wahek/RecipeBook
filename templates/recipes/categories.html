@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+    <div class="start-categories"></div>
     <div class="row container-lg m-auto">
         {% for category in categories %}
             <div class="col-lg-4 mb-4">
@@ -15,10 +16,12 @@
         {% endfor %}
 
     </div>
-    <div class="categories-box latest custom-container">
-                    <img class="categories-img" src="{{ latest.img.url }}" alt="{{ latest.name }}">
-                    <div class="categories-bg">
-                        <p class="categories-text">{{ latest.name }}</p>
-                    </div>
-                </div>
+    <div class="container-lg">
+        <div class="categories-box latest">
+            <img class="categories-img" src="{{ latest.img.url }}" alt="{{ latest.name }}">
+            <div class="categories-bg" style="height: 30%">
+                <p class="categories-text">{{ latest.name }}</p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
