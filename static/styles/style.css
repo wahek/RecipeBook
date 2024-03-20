@@ -95,6 +95,7 @@
     position: relative;
     transition: .3s;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .categories-box::before {
@@ -127,6 +128,11 @@
     overflow: hidden;
     border: black 1px solid;
     border-radius: 10px;
+    transition: transform 0.7s ease;
+}
+
+.categories-box:hover .categories-img {
+    transform: scale(1.1);
 }
 
 .categories-bg {

@@ -210,7 +210,20 @@ class CategoriesView(View):
         categories = Category.objects.all().order_by('-id')
         latest = categories.last()
         context = {
-            'categories': categories[:len(categories)-1],
+            'categories': categories[:len(categories) - 1],
             'latest': latest,
+        }
+        return render(request, self.template_name, context)
+
+
+class RecipeByCategoryView(View):
+    template_name = 'recipes/recipes.html'
+
+    def get(self, request, pk):
+        category = get_object_or_404(Category, id=pk)
+        recipes = Recipe.objects.filter(category=category)
+        context = {
+            'category': category,
+            'recipes': recipes,
         }
         return render(request, self.template_name, context)

@@ -3,7 +3,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 
-from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating
+from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating, Category
 
 User = get_user_model()
 
@@ -50,6 +50,9 @@ class RecipeAddForm(forms.ModelForm):
     ingredients = forms.ModelMultipleChoiceField(label=' ', queryset=Ingredient.objects.all(),
                                                  widget=FilteredSelectMultiple(Ingredient._meta.verbose_name_plural,
                                                                                False))
+    categories = forms.ModelMultipleChoiceField(queryset=Category.objects.all(),
+                                                widget=FilteredSelectMultiple(Category._meta.verbose_name_plural,
+                                                                              False))
     name = forms.CharField(max_length=100, label="Название рецепта",
                            widget=forms.TextInput(
                                attrs={'class': 'short-input-form, w-100', 'placeholder': "Название рецепта"}))
@@ -80,3 +83,4 @@ class RatingRecipeForm(forms.ModelForm):
     class Meta:
         model = RecipeRating
         fields = ['rating']
+
