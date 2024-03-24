@@ -50,13 +50,13 @@ class RecipeAddForm(forms.ModelForm):
     ingredients = forms.ModelMultipleChoiceField(label=' ', queryset=Ingredient.objects.all(),
                                                  widget=FilteredSelectMultiple(Ingredient._meta.verbose_name_plural,
                                                                                False))
-    categories = forms.ModelMultipleChoiceField(queryset=Category.objects.all(),
-                                                widget=FilteredSelectMultiple(Category._meta.verbose_name_plural,
-                                                                              False))
+    categories = forms.ModelChoiceField(queryset=Category.objects.all().order_by('-id'), label='Категория',
+                                        required=True,
+                                        widget=forms.Select(), empty_label='Выберите категорию')
     name = forms.CharField(max_length=100, label="Название рецепта",
                            widget=forms.TextInput(
                                attrs={'class': 'short-input-form, w-100', 'placeholder': "Название рецепта"}))
-    description = forms.CharField(max_length=200, label="Краткое описание", widget=forms.Textarea(
+    description = forms.CharField(max_length=500, label="Краткое описание", widget=forms.Textarea(
         attrs={'class': 'short-input-form, w-100', 'placeholder': "Описание рецепта"}))
     instructions = forms.CharField(label="Как готовить", widget=forms.Textarea(
         attrs={'class': 'short-input-form, w-100', 'placeholder': "Рецепт"}))
@@ -83,4 +83,3 @@ class RatingRecipeForm(forms.ModelForm):
     class Meta:
         model = RecipeRating
         fields = ['rating']
-

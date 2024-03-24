@@ -39,9 +39,13 @@ class Profile(View):
     template_name = 'registration/profile.html'
 
     def get(self, request):
+        recipes = Recipe.objects.filter(author=request.user).order_by('-id')
+        recipes_del = recipes.filter(is_active=False)
+        recipes = recipes.filter(is_active=True)
         context = {
             'user': request.user,
-            'recipes': Recipe.objects.filter(author=request.user)
+            'recipes': recipes,
+            'recipes_del': recipes_del,
         }
         return render(request, self.template_name, context)
 

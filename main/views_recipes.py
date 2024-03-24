@@ -1,7 +1,7 @@
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.views import View
 from random import choices
 
@@ -110,18 +110,7 @@ class RecipesView(View):
 
     def get(self, request):
         recipes = Recipe.objects.all().order_by('-view')
-
-        # Создание объекта Paginator
-        paginator = Paginator(recipes, self.recipes_per_page)
-
-        # Получение номера страницы из запроса
-        page_number = request.GET.get('page')
-        try:
-            recipes_page = paginator.page(page_number)
-        except PageNotAnInteger:
-            recipes_page = paginator.page(1)
-        except EmptyPage:
-            recipes_page = paginator.page(paginator.num_pages)
+        recipes_page = self.paginate_recipes(request, recipes)
 
         context = {
             'recipes_page': recipes_page,
@@ -138,6 +127,15 @@ class RecipesView(View):
         if query:
             recipes = recipes.filter(Q(name__icontains=query) | Q(description__icontains=query))
 
+        recipes_page = self.paginate_recipes(request, recipes)
+
+        context = {
+            'recipes_page': recipes_page,
+            'count': recipes.count()
+        }
+        return render(request, self.template_name, context)
+
+    def paginate_recipes(self, request, recipes):
         # Создание объекта Paginator
         paginator = Paginator(recipes, self.recipes_per_page)
 
@@ -150,11 +148,7 @@ class RecipesView(View):
         except EmptyPage:
             recipes_page = paginator.page(paginator.num_pages)
 
-        context = {
-            'recipes_page': recipes_page,
-            'count': recipes.count()
-        }
-        return render(request, self.template_name, context)
+        return recipes_page
 
 
 class RecipeView(View):
@@ -242,6 +236,26 @@ class RecipeUpdateView(View):
             return redirect('recipe', pk=pk)
         context = {'form': form, 'recipe': recipe}
         return render(request, self.template_name, context)
+
+
+class RecipeDeleteView(View):
+    def post(self, request, pk):
+        recipe = get_object_or_404(Recipe, id=pk)
+
+        if recipe.author == request.user:
+            recipe.is_active = False
+            recipe.save()
+        return HttpResponse('Recipe deleted')
+
+
+class RecipeRestoreView(View):
+    def post(self, request, pk):
+        recipe = get_object_or_404(Recipe, id=pk)
+
+        if recipe.author == request.user:
+            recipe.is_active = True
+            recipe.save()
+        return HttpResponse('Recipe revived')
 
 
 class CategoriesView(View):

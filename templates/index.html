@@ -27,10 +27,11 @@
                     <a class="nav-link active" aria-current="page" href="{% url 'recipes' %}">Книга рецептов</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-body-secondary" aria-current="page" href="{% url 'categories' %}">Категории</a>
+                    <a class="nav-link text-body-secondary" aria-current="page"
+                       href="{% url 'categories' %}">Категории</a>
                 </li>
                 {% if user.is_authenticated %}
-                    <li class="nav-item dropdown start-50">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                            aria-expanded="false">
                             <img class="my-person-icon" src="{% static 'images/icon/person-circle.svg' %}"> {{ user }}
@@ -51,29 +52,31 @@
                     </li>
                 {% else %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            <img src="{% static 'images/icon/person-circle.svg' %}">
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'login' %}">Вход</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="{% url 'registration' %}">Регистрация</a></li>
-                    </li>
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <img src="{% static 'images/icon/person-circle.svg' %}">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{% url 'login' %}">Вход</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="{% url 'registration' %}">Регистрация</a></li>
                     </ul>
                 {% endif %}
 
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Поиск">
+            <form class="d-flex" role="search" method="post" action="{% url 'recipes' %}">
+                {% csrf_token %}
+                <input class="form-control me-2" type="search" name="query" placeholder="Поиск" aria-label="Поиск">
                 <button class="btn btn-outline-success" type="submit">Найти</button>
             </form>
         </div>
     </div>
 </nav>
 <div class="mt-5 mb-5 pt-2"></div>
+{% block head %}
+{% endblock %}
 {% block content %}
     <div id="carouselExampleDark" class="carousel carousel-dark slide">
     <div class="carousel-indicators">
@@ -89,12 +92,14 @@
             <a href="{% url 'recipe' recipe.id %}">
             <div class="carousel-item {% if forloop.first %}active{% endif %}" data-bs-interval="10000">
                 <div class="img-carousel">
-                    <img src="{{ recipe.img.url }}" loading="lazy" class="d-block w-100" alt="...">
+                    <img src="{{ recipe.img.url }}" loading="lazy" class="d-block w-100" alt="{{ recipe.name }}">
                 </div>
                 <div class="carousel-caption d-none d-md-block">
-                    <h5 class="">{{ recipe.name }}{{ rati }}/5 <img class="pb-1"
-                                                                    src="{% static 'images/icon/star-fill.svg' %}"
-                                                                    alt="*"></h5>
+                    <h5 class="">{{ recipe.name }} {{ rati.rating }}/5 <img class="pb-1" ({{ rati.count }})
+                                                                            src="{% static 'images/icon/star-fill.svg' %}"
+                                                                            alt="*"><small> ({{ rati.count }})</small>
+                        <small
+                                class="text-body-secondary ps-5">Просмотры:{{ recipe.view }}</small></h5>
                     <p class="flex-lg-wrap">{{ recipe.description }}</p>
                 </div>
             </div>
@@ -136,5 +141,7 @@
     </div>
 </footer>
 <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+{% block scripts %}
+{% endblock %}
 </body>
 </html>

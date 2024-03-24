@@ -18,10 +18,11 @@
                         </small><img class="card-icon" src="{% static 'images/icon/timer.svg' %}"></p>
                         <p class="card-text"><small
                                 class="text-body-secondary fs-5">Просмотры: {{ recipe.view }}</small></p>
-                        {% if recipe_rating == 0 %}
+                        {% if recipe_rating != 0 %}
                             <div class="d-flex gap-3">
                                 <p class="card-text"><small
-                                        class="text-body-secondary fs-5">Рейтинг: {{ recipe_rating }}/5</small>
+                                        class="text-body-secondary fs-5">Рейтинг: {{ recipe_rating }}/5
+                                    ({{ count_rating }})</small>
                                 <div class="d-flex">
                                     {% for _ in full_star %}
                                         <img class="rating-star-icon" src="{% static 'images/icon/star-fill.svg' %}"
@@ -73,7 +74,7 @@
                         {% for i in max_rating %}
                             <img class="icon-post-rating" src="{% static 'images/icon/star-fill.svg' %}" alt="*">
                         {% endfor %}
-                    <button class="btn btn-dark" type="submit">Оценить</button>
+                        <button class="btn btn-dark" type="submit">Оценить</button>
                     </div>
                 </form>
             {% endif %}

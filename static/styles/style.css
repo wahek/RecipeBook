@@ -193,6 +193,18 @@
     height: 24px;
 }
 
+.card-shadow:hover {
+    box-shadow: darkgray 1px 1px 10px;
+}
+.card-img-top{
+    transition: 0.7s;
+}
+
+.card-img-top:hover{
+    scale: 1.1;
+    transition: 0.7s;
+}
+
 @media screen and (max-width: 991px) {
     .categories-text {
         font-size: 52px;

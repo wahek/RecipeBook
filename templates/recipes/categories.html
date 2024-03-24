@@ -5,14 +5,18 @@
     <div class="start-categories"></div>
     <div class="row container-lg m-auto">
         {% for category in categories %}
+
             <div class="col-lg-4 mb-4">
-                <div class="categories-box">
-                    <img class="categories-img" src="{{ category.img.url }}" alt="{{ category.name }}">
-                    <div class="categories-bg">
-                        <p class="categories-text">{{ category.name }}</p>
+                <a href="{% url 'recipes_by_category' category.id %}">
+                    <div class="categories-box">
+                        <img class="categories-img" src="{{ category.img.url }}" alt="{{ category.name }}">
+                        <div class="categories-bg">
+                            <p class="categories-text">{{ category.name }}</p>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
+
         {% endfor %}
 
     </div>

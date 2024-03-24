@@ -1,4 +1,5 @@
 {% extends 'index.html' %}
+{% load static %}
 
 {% block content %}
     <div class="container-lg justify-content-center">
@@ -28,14 +29,22 @@
         <div class="profile_recipes container-lg mt-5">
             {% if recipes %}
                 {% for recipe in recipes %}
-                    <div class="card w-100 mb-3">
+                    <div class="card w-100 mb-3 text-body">
                         <div class="card-body">
-                            <h5 class="card-title">{{ recipe.name }}</h5>
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ recipe.name }}</h5>
+                                <a class="delete-button" data-recipe-id="{{ recipe.id }}">
+                                    <button class="btn p-0" title="Удалить рецепт"><img class="card-icon my-icons"
+                                                                                        src="{% static 'images/icon/x-square-fill.svg' %}"
+                                                                                        alt="Удалить"></button>
+                                </a>
+                            </div>
                             <p class="card-text">{{ recipe.description }}</p>
                             <div class="d-flex justify-content-between">
                                 <a href="{% url 'recipe' recipe.id %}" class="btn btn-dark">К рецепту</a>
                                 <p class="mt-auto mb-auto text-body-secondary">{{ recipe.view }} Просмотров |
-                                    Рейтинг {{ recipe.average_rating }} / 5</p>
+                                    Рейтинг {{ recipe.average_rating.rating }} / 5
+                                    ({{ recipe.average_rating.count }})</p>
                             </div>
                         </div>
                     </div>
@@ -43,6 +52,32 @@
             {% else %}
                 <h5 class="mt-5 text-center">Здесь будут ваши рецепты. Поделитесь</h5>
             {% endif %}
+            {% if recipes_del %}
+                <h4>Удалённые рецепты</h4>
+                {% for recipe in recipes_del %}
+                    <div class="card w-100 mb-3 text-body-secondary">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <h5 class="card-title">{{ recipe.name }}</h5>
+                                <a class="restore-button" data-recipe-id="{{ recipe.id }}">
+                                    <button class="btn btn-outline-success text-body-emphasis">Восстановить</button>
+                                </a>
+                            </div>
+                            <p class="card-text">{{ recipe.description }}</p>
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'recipe' recipe.id %}" class="btn btn-outline-secondary">К рецепту</a>
+                                <p class="mt-auto mb-auto text-body-secondary">{{ recipe.view }} Просмотров |
+                                    Рейтинг {{ recipe.average_rating.rating }} / 5
+                                    ({{ recipe.average_rating.count }})</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
+{% endblock %}
+{% block scripts %}
+    <script src="{% static 'bootstrap/js/recipe_del_res.js' %}"></script>
+
 {% endblock %}

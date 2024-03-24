@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=500)
     ingredients = models.ManyToManyField('Ingredient')
     instructions = models.TextField()
     cooking_time = models.PositiveIntegerField(default=None, validators=[MinValueValidator(5), MaxValueValidator(1000)])
@@ -19,8 +19,10 @@ class Recipe(models.Model):
     is_active = models.BooleanField(default=True)
 
     def average_rating(self):
-        total_rating = RecipeRating.objects.filter(recipe=self).aggregate(models.Avg('rating'))['rating__avg']
-        return round(total_rating, 1) if total_rating else 0
+        total_rating = RecipeRating.objects.filter(recipe=self)
+        count = total_rating.count()
+        rating = total_rating.aggregate(models.Avg('rating'))['rating__avg']
+        return {'rating': round(rating, 1), 'count': count} if count and rating else {'rating': 0, 'count': 0}
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -54,10 +56,13 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     img = models.ImageField(upload_to='category', default='empty.png')
 
+    def __str__(self):
+        return self.name
+
 
 class RecipeCategory(models.Model):
-    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE)
-    category = models.ForeignKey('Category', on_delete=models.SET_DEFAULT, default=1)
+    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, )
+    category = models.ForeignKey('Category', on_delete=models.SET_DEFAULT, default=1, )
 
 
 class User(AbstractUser):
