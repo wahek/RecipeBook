@@ -1,11 +1,12 @@
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from random import choices
 
 from .forms import RecipeAddForm, RecipeAddIngredientsForm, RatingRecipeForm
-from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating, Category
+from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating, Category, RecipeCategory
 
 MAX_RATING = 5
 
@@ -24,6 +25,8 @@ class RecipeAddView(View):
             recipe.author = request.user
             recipe.save()
             form.save_m2m()
+            category = form.cleaned_data['categories']
+            RecipeCategory.objects.create(recipe=recipe, category=category)
             ingredients = form.cleaned_data['ingredients']
             for ingredient in ingredients:
                 RecipeIngredient.objects.create(
@@ -106,7 +109,7 @@ class RecipesView(View):
     recipes_per_page = 10  # Количество рецептов на странице
 
     def get(self, request):
-        recipes = Recipe.objects.all().order_by('view')
+        recipes = Recipe.objects.all().order_by('-view')
 
         # Создание объекта Paginator
         paginator = Paginator(recipes, self.recipes_per_page)
@@ -122,6 +125,34 @@ class RecipesView(View):
 
         context = {
             'recipes_page': recipes_page,
+            'count': recipes.count()
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request):
+        query = request.POST.get('query', '')
+        print(query)
+
+        # Получение всех рецептов и их фильтрация по запросу
+        recipes = Recipe.objects.all().order_by('-view')
+        if query:
+            recipes = recipes.filter(Q(name__icontains=query) | Q(description__icontains=query))
+
+        # Создание объекта Paginator
+        paginator = Paginator(recipes, self.recipes_per_page)
+
+        # Получение номера страницы из запроса
+        page_number = request.GET.get('page')
+        try:
+            recipes_page = paginator.page(page_number)
+        except PageNotAnInteger:
+            recipes_page = paginator.page(1)
+        except EmptyPage:
+            recipes_page = paginator.page(paginator.num_pages)
+
+        context = {
+            'recipes_page': recipes_page,
+            'count': recipes.count()
         }
         return render(request, self.template_name, context)
 
@@ -131,11 +162,20 @@ class RecipeView(View):
     form = RatingRecipeForm
 
     def get(self, request, pk):
-
         recipe = get_object_or_404(Recipe, id=pk)
-        recipe.view += 1
+
+        # Проверяем, просматривал ли пользователь этот рецепт в текущей сессии
+        viewed_recipes = request.session.get('viewed_recipes', [])
+        if recipe.id not in viewed_recipes:
+            # Увеличиваем счетчик просмотров только если рецепт еще не просматривался
+            recipe.view += 1
+            recipe.save()
+            viewed_recipes.append(recipe.id)
+            request.session['viewed_recipes'] = viewed_recipes
+
         ingredients = RecipeIngredient.objects.filter(recipe=recipe)
-        rating = recipe.average_rating()
+        rating_count = recipe.average_rating()
+        rating = rating_count['rating']
         full_star = int(rating)
         if rating - full_star > 0.3:
             half_star = 1
@@ -147,6 +187,7 @@ class RecipeView(View):
             'recipe': recipe,
             'ingredients': ingredients,
             'recipe_rating': rating,
+            'count_rating': rating_count['count'],
             'full_star': range(full_star),
             'half_star': range(half_star),
             'empty_star': range(empty_star),
@@ -218,12 +259,33 @@ class CategoriesView(View):
 
 class RecipeByCategoryView(View):
     template_name = 'recipes/recipes.html'
+    recipes_per_page = 10
 
-    def get(self, request, pk):
-        category = get_object_or_404(Category, id=pk)
-        recipes = Recipe.objects.filter(category=category)
+    def get(self, request, category_pk):
+        recipe_category_instances = RecipeCategory.objects.filter(category=category_pk)
+
+        # Получение всех рецептов, связанных с выбранной категорией
+        recipes = [recipe_category.recipe for recipe_category in recipe_category_instances]
+
+        # Создание объекта Paginator
+        paginator = Paginator(recipes, self.recipes_per_page)
+
+        # Получение номера страницы из запроса
+        page_number = request.GET.get('page')
+
+        try:
+            recipes_page = paginator.page(page_number)
+        except PageNotAnInteger:
+            recipes_page = paginator.page(1)
+        except EmptyPage:
+            recipes_page = paginator.page(paginator.num_pages)
+        try:
+            category = recipe_category_instances.first().category
+        except AttributeError:
+            category = None
         context = {
             'category': category,
-            'recipes': recipes,
+            'recipes_page': recipes_page,
+            'count': recipe_category_instances.count()
         }
         return render(request, self.template_name, context)
