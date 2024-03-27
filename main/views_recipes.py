@@ -1,4 +1,3 @@
-from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
@@ -6,7 +5,7 @@ from django.views import View
 from random import choices
 
 from .forms import RecipeAddForm, RecipeAddIngredientsForm, RatingRecipeForm
-from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating, Category, RecipeCategory
+from .models import Recipe, RecipeIngredient, Ingredient, RecipeRating, Category, RecipeCategory, User
 
 MAX_RATING = 5
 
@@ -93,7 +92,7 @@ class IndexView(View):
     template_name = 'index.html'
 
     def get(self, request):
-        recipes = Recipe.objects.all()
+        recipes = Recipe.objects.filter(is_active=True)
         try:
             choice_recipes = choices(recipes, k=5)
         except IndexError:
@@ -109,7 +108,7 @@ class RecipesView(View):
     recipes_per_page = 10  # Количество рецептов на странице
 
     def get(self, request):
-        recipes = Recipe.objects.all().order_by('-view')
+        recipes = Recipe.objects.filter(is_active=True).order_by('-view')
         recipes_page = self.paginate_recipes(request, recipes)
 
         context = {
@@ -123,7 +122,7 @@ class RecipesView(View):
         print(query)
 
         # Получение всех рецептов и их фильтрация по запросу
-        recipes = Recipe.objects.all().order_by('-view')
+        recipes = Recipe.objects.filter(is_active=True).order_by('-view')
         if query:
             recipes = recipes.filter(Q(name__icontains=query) | Q(description__icontains=query))
 
@@ -179,6 +178,7 @@ class RecipeView(View):
         context = {
             'max_rating': range(MAX_RATING),
             'recipe': recipe,
+            'user_id': recipe.author.id,
             'ingredients': ingredients,
             'recipe_rating': rating,
             'count_rating': rating_count['count'],
@@ -301,5 +301,19 @@ class RecipeByCategoryView(View):
             'category': category,
             'recipes_page': recipes_page,
             'count': recipe_category_instances.count()
+        }
+        return render(request, self.template_name, context)
+
+
+class RecipeByUser(View):
+    template_name = 'recipes/recipes.html'
+
+    def get(self, request, user_id):
+        user = get_object_or_404(User, id=user_id)
+        recipes = Recipe.objects.filter(author=user, is_active=True).order_by('-view')
+        context = {
+            'recipes_page': recipes,
+            'count': recipes.count(),
+            'author': user,
         }
         return render(request, self.template_name, context)

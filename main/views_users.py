@@ -39,13 +39,33 @@ class Profile(View):
     template_name = 'registration/profile.html'
 
     def get(self, request):
-        recipes = Recipe.objects.filter(author=request.user).order_by('-id')
+        try:
+            recipes = Recipe.objects.filter(author=request.user).order_by('-id')
+        except TypeError:
+            return redirect('login')
         recipes_del = recipes.filter(is_active=False)
         recipes = recipes.filter(is_active=True)
         context = {
             'user': request.user,
             'recipes': recipes,
             'recipes_del': recipes_del,
+        }
+        return render(request, self.template_name, context)
+
+
+class ProfileByID(View):
+    template_name = 'registration/profileID.html'
+
+    def get(self, request, user_id):
+        try:
+            user = User.objects.get(id=user_id, is_active=True)
+            recipes = Recipe.objects.filter(author=user, is_active=True).order_by('-id')
+        except TypeError:
+            context = {'dont_exist': 'Такого пользователя не существует, или аккаунт удалён'}
+            return render(request, self.template_name, context)
+        context = {
+            'user': user,
+            'recipes': recipes,
         }
         return render(request, self.template_name, context)
 

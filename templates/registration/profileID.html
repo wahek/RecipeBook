@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block extrahead %}
+    {% if dont_exist %}
+        {{ dont_exist }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
+        <div class="col-lg-6 px-0 container-lg">
+            <h1 class="display-4">{{ user.username }}</h1>
+            <p class="lead my-3">{{ user.first_name }} {{ user.last_name }}</p>
+            <p class="lead my-3"><img class="me-2" src="{% static 'images/icon/envelope-at.svg' %}" alt="envelope">{{ user.email }}</p>
+            {% if user.gender == 'M' %}
+                <p class="lead my-3"><img class="me-1" src="{% static 'images/icon/gender-male.svg' %}" alt="male"> Мужчина</p>
+            {% elif user.gender == 'F' %}
+                <p class="lead my-3"><img class="me-1" src="{% static 'images/icon/gender-female.svg' %}" alt="female"> Женщина</p>
+            {% endif %}
+            <p class="lead my-3">{{ user.birth_date }} ({{ user.age }})</p>
+            <p class="lead mb-0"><a href="{% url 'recipes_by_user' user.id %}" class="text-body-emphasis fw-bold">Посмотреть все рецепты автора...</a></p>
+        </div>
+    </div>
+{% endblock %}

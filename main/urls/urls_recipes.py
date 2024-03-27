@@ -1,4 +1,5 @@
 from django.urls import path
+from ..models import User
 
 from main import views_recipes
 
@@ -7,6 +8,7 @@ urlpatterns = [
     path('recipe/add/ingredients/<int:recipe_id>/', views_recipes.RecipeAddIngredientsView.as_view(),
          name='ingredients_add'),
     path('recipes/', views_recipes.RecipesView.as_view(), name='recipes'),
+    path('recipes/<int:user_id>', views_recipes.RecipeByUser.as_view(), name='recipes_by_user'),
     path('recipes_category/<int:category_pk>/', views_recipes.RecipeByCategoryView.as_view(),
          name='recipes_by_category'),
     path('recipe/<int:pk>/', views_recipes.RecipeView.as_view(), name='recipe'),

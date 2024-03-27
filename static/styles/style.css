@@ -205,6 +205,8 @@
     transition: 0.7s;
 }
 
+
+
 @media screen and (max-width: 991px) {
     .categories-text {
         font-size: 52px;

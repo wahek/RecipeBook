@@ -7,6 +7,8 @@
         {% if request.path != '/book/recipes/' %}
             {% if category %}
                 <h2>Все рецепты по запросу: {{ category.name }}</h2>
+            {% elif author %}
+                <h2>Все рецепты: {{ author }}</h2>
             {% else %}
                 <h2 class="text-body-secondary">Ничего не найдено</h2>
             {% endif %}

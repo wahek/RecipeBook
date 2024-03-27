@@ -10,7 +10,7 @@ class Recipe(models.Model):
     description = models.CharField(max_length=500)
     ingredients = models.ManyToManyField('Ingredient')
     instructions = models.TextField()
-    cooking_time = models.PositiveIntegerField(default=None, validators=[MinValueValidator(5), MaxValueValidator(1000)])
+    cooking_time = models.PositiveIntegerField(validators=[MinValueValidator(5), MaxValueValidator(1000)])
     author = models.ForeignKey('User', null=True, related_name='user', on_delete=models.SET_NULL)
     view = models.PositiveIntegerField(default=0)
     img = models.ImageField(upload_to='recipe', default='empty.png')
@@ -78,8 +78,12 @@ class User(AbstractUser):
             self.age = days.days // 365
         super().save(*args, **kwargs)
 
-
+    def __str__(self):
+        return self.username
 class RecipeRating(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+    def __str__(self):
+        return f'{self.user.username} ({self.rating})'
