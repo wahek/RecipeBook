@@ -8,5 +8,6 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         with open('static/categories.txt', 'r', encoding='utf-8') as f:
             for line in f:
-                Category.objects.create(name=line.strip('\n'))
+                name = line.strip('\n')
+                Category.objects.create(name=name, img=f'categories/{name}.jpg')
                 self.stdout.write(self.style.SUCCESS(f'Added {line}'))
