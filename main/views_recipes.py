@@ -109,7 +109,7 @@ class RecipesView(View):
     recipes_per_page = 10  # Количество рецептов на странице
 
     def get(self, request):
-        recipes = Recipe.objects.all().order_by('-view')
+        recipes = Recipe.objects.filter(is_active=True).order_by('-view')
         recipes_page = self.paginate_recipes(request, recipes)
 
         context = {
