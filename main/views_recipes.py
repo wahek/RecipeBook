@@ -93,7 +93,7 @@ class IndexView(View):
     template_name = 'index.html'
 
     def get(self, request):
-        recipes = Recipe.objects.all()
+        recipes = Recipe.objects.filter(is_active=True)
         try:
             choice_recipes = choices(recipes, k=5)
         except IndexError:
@@ -156,7 +156,7 @@ class RecipeView(View):
     form = RatingRecipeForm
 
     def get(self, request, pk):
-        recipe = get_object_or_404(Recipe, id=pk)
+        recipe = get_object_or_404(Recipe, id=pk, is_active=True)
 
         # Проверяем, просматривал ли пользователь этот рецепт в текущей сессии
         viewed_recipes = request.session.get('viewed_recipes', [])

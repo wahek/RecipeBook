@@ -65,7 +65,6 @@
                             </div>
                             <p class="card-text">{{ recipe.description }}</p>
                             <div class="d-flex justify-content-between">
-                                <a href="{% url 'recipe' recipe.id %}" class="btn btn-outline-secondary">К рецепту</a>
                                 <p class="mt-auto mb-auto text-body-secondary">{{ recipe.view }} Просмотров |
                                     Рейтинг {{ recipe.average_rating.rating }} / 5
                                     ({{ recipe.average_rating.count }})</p>
