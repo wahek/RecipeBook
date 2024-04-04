@@ -276,10 +276,11 @@ class RecipeByCategoryView(View):
     recipes_per_page = 10
 
     def get(self, request, category_pk):
-        recipe_category_instances = RecipeCategory.objects.filter(category=category_pk, is_active=True)
+        recipe_category_instances = RecipeCategory.objects.filter(category=category_pk)
 
         # Получение всех рецептов, связанных с выбранной категорией
-        recipes = [recipe_category.recipe for recipe_category in recipe_category_instances]
+        recipes = [recipe_category.recipe for recipe_category in recipe_category_instances if
+                   recipe_category.recipe.is_active]
 
         # Создание объекта Paginator
         paginator = Paginator(recipes, self.recipes_per_page)
